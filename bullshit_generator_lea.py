@@ -1,9 +1,7 @@
-#!/usr/bin/env python3
 '''
 ======================================================================
  Bullshit Generator 
-    by Pierre Denis, March 2009
-    Presentationized by @SteveClement, December 2014
+    by Pierre Denis, 2009, 2014
 ======================================================================
 '''
 
@@ -11,26 +9,15 @@
 # grammar engine
 # --------------------------------------------------
 
-from random import choice, random
-from bisect import bisect
+from lea import Lea
 
 class Node(object):
 
     def setTermsChoices(self,*termsChoices):
-        self.termsChoices = []
-        weights = []
-        for weight, termChoice in termsChoices:
-            self.termsChoices.append(termChoice)
-            weights.append(weight)
-        totalWeight = sum(weights)
-        self.thresholds = []
-        threshold = 0.0
-        for weight in weights[:-1]:
-            threshold += weight
-            self.thresholds.append(threshold/totalWeight)
+        self.termsChoices = Lea.fromValFreqs(*termsChoices)
         
     def getWords(self):
-        terms = self.termsChoices[bisect(self.thresholds,random())]        
+        terms = self.termsChoices.random()
         for term in terms:
             if isinstance(term,str):
                 yield term
@@ -39,11 +26,8 @@ class Node(object):
                     yield word
 
     def getString(self):
-        # note : starting from Python 2.4, the two following statements
-        # may be changed to use generator expressions,
-        # i.e. remove list(...) and brackets []
-        res = " ".join(list(self.getWords()))
-        res = ", ".join([w.strip() for w in res.split(",") if w.strip()])
+        res = " ".join(self.getWords())
+        res = ", ".join(w.strip() for w in res.split(",") if w.strip())
         if res.endswith(", "):
             res = res[:-2]
         return res[0].upper() + res[1:] + "."
@@ -52,17 +36,15 @@ class Node(object):
 class TerminalNode(object):
 
     def __init__(self,*words):
-        self.words = words
+        self.words = Lea.fromVals(*words)
 
     def getWords(self):
-        yield choice(self.words)
+        yield self.words.random()
 
 # --------------------------------------------------
 # grammar
 # --------------------------------------------------
 
-""" verb == a word used to describe an action, state, or occurrence, and forming 
-the main part of the predicate of a sentence, such as hear, become, happen. """
 verb = TerminalNode(
     "accesses", "activates", "administrates", "aggregates", "builds",
     "calculates", "checks", "competes with", "completes", "complies with",
@@ -85,10 +67,6 @@ verb = TerminalNode(
     "streamlines", "subscribes to", "subscribes to", "supersedes", "takes",
     "targets", "triggers", "updates", "validates", "writes")
 
-""" passiveVerb == Passive voice is a grammatical voice common in many of the 
-world's languages. In a clause with passive voice, the grammatical subject 
-expresses the theme or patient of the main verb - that is, the person or thing 
-that undergoes the action or has its state changed."""
 passiveVerb = TerminalNode(
     "accessed by", "achieved by", "aggregated by", "applicable for",
     "asserted by", "authorized by",
@@ -107,7 +85,6 @@ passiveVerb = TerminalNode(
     "serialized in", "started in", "stored by", "stored in", "stored on",
     "the interface of", "updated by", "validated by")
 
-# simpleName == Name is a word (or a set of words) given to things and people.
 aSimpleName = TerminalNode(
     "COTS", "GRID processing",
     "Java program", "LDAP registry", "Portal", "RSS feed", "SAML token",
@@ -158,7 +135,6 @@ anSimpleName = TerminalNode(
     "ontology", "operation", "operator", "operator", "opportunity",
     "orchestration", "owner")
 
-# adjective == a word naming an attribute of a noun, such as sweet, red, or technical.
 aAdjective = TerminalNode(
     "BPEL",  "DOM", "DTD", "GRID", "HTML", "J2EE",
     "Java", "Java-based", "Java-based", "UML", "SAX", "WFS", "WSDL",
@@ -197,10 +173,6 @@ anAdjective = TerminalNode(
     "open", "operational",
     "other", "own", "unaffected", "up-to-date")
 
-""" adverb == a word or phrase that modifies the meaning of an adjective, verb, 
-or other adverb, expressing manner, place, time, or degree (e.g. gently, here, 
-ow, very ). Some adverbs, for example sentence adverbs, can also be used to 
-modify whole sentences. """
 adverb = TerminalNode(
     "basically", "comprehensively", "conceptually", "consistently",
     "definitely", "dramatically",
@@ -210,8 +182,7 @@ adverb = TerminalNode(
     "officially", "physically", "practically", "primarily",
     "repeatedly", "roughly", "sequentially", "simply", "specifically", 
     "surely", "technically", "undoubtly", "usefully", "virtually")
-
-""" sentenceHead == In linguistics, the head of a phrase is the word that determines the syntactic type of that phrase or analogously the stem that determines the semantic category of a compound of which it is a part. The other elements modify the head and are therefore the head's dependents.[1] Headed phrases and compounds are endocentric, whereas exocentric ("headless") phrases and compounds (if they exist) lack a clear head. Heads are crucial to establishing the direction of branching. Head-initial phrases are right-branching, head-final phrases are left-branching, and head-medial phrases combine left- and right-branching."""
+                            
 sentenceHead = TerminalNode(
     "actually", "as a matter of fact", "as said before", "as stated before",
     "basically", "before all", "besides this", "beyond that point",
@@ -224,74 +195,73 @@ sentenceHead = TerminalNode(
     "roughly speaking", "that being said", "then", "therefore",
     "to summarize", "up to here", "up to now", "when this happens")
 
-# creates 11 Node objects based on our grammar set which itself are TerminalNodes
 (name, aName, anName, nameTail, adjective, nameGroup,
  simpleNameGroup, verbalGroup, simpleVerbalGroup, sentence,
  sentenceTail) = [Node() for i in range(11)]
 
 aName.setTermsChoices(
-    ( 50, ( aSimpleName, ) ),
-    (  5, ( aSimpleName, name ) ),
-    (  8, ( aSimpleName, name ) ),
-    (  5, ( aName, nameTail ) ) )
+    (( aSimpleName,      ), 50 ),
+    (( aSimpleName, name ),  5 ),
+    (( aSimpleName, name ),  8 ),
+    (( aName, nameTail   ),  5 ))
 
 anName.setTermsChoices(
-    ( 50, ( anSimpleName, ) ),
-    (  8, ( anSimpleName, name ) ),
-    (  5, ( anName, nameTail ) ) )
+    (( anSimpleName,      ), 50 ),
+    (( anSimpleName, name ),  8 ),
+    (( anName, nameTail   ),  5 ))
 
 nameTail.setTermsChoices(
-    (  2, ( "of", nameGroup ) ),
-    (  2, ( "from", nameGroup ) ),
-    (  1, ( "under", nameGroup ) ),
-    (  1, ( "on top of", nameGroup ) ) )
+    (( "of", nameGroup        ), 2 ),
+    (( "from", nameGroup      ), 2 ),
+    (( "under", nameGroup     ), 1 ),
+    (( "on top of", nameGroup ), 1 ))
 
 name.setTermsChoices(
-    (  1, ( aName, ) ),
-    (  1, ( anName, ) ) )
+    (( aName,  ), 1 ),
+    (( anName, ), 1 ))
 
 adjective.setTermsChoices(
-    (  1, ( aAdjective, ) ),
-    (  1, ( anAdjective, ) ) )
+    (( aAdjective,  ), 1 ),
+    (( anAdjective, ), 1 ))
 
 nameGroup.setTermsChoices(
-    ( 10, ( simpleNameGroup, ) ),
-    (  1, ( simpleNameGroup, passiveVerb, nameGroup ) ),
-    (  1, ( simpleNameGroup, "that", simpleVerbalGroup ) ),
-    (  1, ( simpleNameGroup, ", which", simpleVerbalGroup, "," ) ) )
+    (( simpleNameGroup,                                   ), 10 ),
+    (( simpleNameGroup, passiveVerb, nameGroup            ),  1 ),
+    (( simpleNameGroup, "that", simpleVerbalGroup         ),  1 ),
+    (( simpleNameGroup, ", which", simpleVerbalGroup, "," ),  1 ))
 
 simpleNameGroup.setTermsChoices(
-    ( 40, ( "the", name ) ),
-    ( 20, ( "the", adjective, name ) ),
-    ( 10, ( "a", aName ) ),
-    ( 10, ( "an", anName ) ),
-    (  5, ( "a", aAdjective, name ) ),                
-    (  5, ( "an", anAdjective, name ) ) )  
+    (( "the", name             ), 40 ),
+    (( "the", adjective, name  ), 20 ),
+    (( "a", aName              ), 10 ),
+    (( "an", anName            ), 10 ),
+    (( "a", aAdjective, name   ),  5 ),                
+    (( "an", anAdjective, name ),  5 ))  
 
 verbalGroup.setTermsChoices(
-    ( 10, ( verb, nameGroup ) ),
-    (  1, ( adverb, verb, nameGroup ) ),
-    ( 10, ( "is", passiveVerb, nameGroup ) ),
-    (  1, ( "is", adverb, passiveVerb, nameGroup ) ),
-    (  1, ( "is", adjective ) ),
-    (  1, ( "is", adverb, adjective ) ) )
+    (( verb, nameGroup                      ), 10 ),
+    (( adverb, verb, nameGroup              ),  1 ),
+    (( "is", passiveVerb, nameGroup         ), 10 ),
+    (( "is", adverb, passiveVerb, nameGroup ),  1 ),
+    (( "is", adjective                      ),  1 ),
+    (( "is", adverb, adjective              ),  1 ))
 
 simpleVerbalGroup.setTermsChoices(
-    (  2, ( verb, simpleNameGroup ) ),
-    (  1, ("is", adjective ) ) )
+    (( verb, simpleNameGroup ), 2 ),
+    (( "is", adjective       ), 1 ))
 
 sentence.setTermsChoices(
-    ( 20, (nameGroup, verbalGroup ) ),
-    (  4, (sentenceHead, "," , nameGroup, verbalGroup ) ),
-    (  4, (sentence, sentenceTail ) ) )
+    (( nameGroup, verbalGroup                     ), 20 ),
+    (( sentenceHead, "," , nameGroup, verbalGroup ),  4 ),
+    (( sentence, sentenceTail                     ),  4 ))
 
 sentenceTail.setTermsChoices(
-    ( 12, ( "in", nameGroup) ),
-    (  5, ( "within", nameGroup) ),
-    (  5, ( "where", nameGroup, verbalGroup) ),
-    (  5, ( "when", nameGroup, verbalGroup) ),
-    (  2, ( "because it", verbalGroup ) ),
-    (  1, ( "; that's why it", verbalGroup ) ) )
+    (( "in", nameGroup                 ), 12 ),
+    (( "within", nameGroup             ),  5 ),
+    (( "where", nameGroup, verbalGroup ),  5 ),
+    (( "when", nameGroup, verbalGroup  ),  5 ),
+    (( "because it", verbalGroup       ),  2 ),
+    (( "; that's why it", verbalGroup  ),  1 ))
 
 # --------------------------------------------------
 # main program
@@ -302,14 +272,17 @@ try:
 except:
     voice = None
 
-print("press <enter> to resume, 'q'+<enter> to quit\n")
+print ("press <enter> to resume, 'q'+<enter> to quit\n")
 
 while True:
-    print()
+    print ('')
     for i in range(8):
         generatedSentence = sentence.getString()
-        print(generatedSentence)
+        print (generatedSentence,end='')
+        #print generatedSentence,
         if voice:
             voice.speak(generatedSentence)
-    if input().strip().lower() == "q":
+    cmd = input()
+    #cmd = raw_input()        
+    if cmd.strip().lower() == "q":
         break
