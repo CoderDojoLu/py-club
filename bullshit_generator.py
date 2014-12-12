@@ -3,17 +3,25 @@
 ======================================================================
  Bullshit Generator 
     by Pierre Denis, March 2009
+    source: https://mail.python.org/pipermail/python-list/2009-March/530858.html
+    adaptation: https://code.google.com/p/lea/wiki/Examples#bullshit_generator
     Presentationized by @SteveClement, December 2014
 ======================================================================
 '''
+
+# There are three kinds of sequences in Python: strings, lists and tuples. Dictionaries and sets are containers for sequential data.
 
 # --------------------------------------------------
 # grammar engine
 # --------------------------------------------------
 
+# choice returns a random element from the non-empty sequence seq. If seq is empty, raises IndexError.
 from random import choice, random
+
+# bisect maintains a sorted order in lists
 from bisect import bisect
 
+# A class in OOP is a blueprint that describes "stuff"
 class Node(object):
 
     def setTermsChoices(self,*termsChoices):
@@ -229,6 +237,7 @@ sentenceHead = TerminalNode(
  simpleNameGroup, verbalGroup, simpleVerbalGroup, sentence,
  sentenceTail) = [Node() for i in range(11)]
 
+# weights depending on 
 aName.setTermsChoices(
     ( 50, ( aSimpleName, ) ),
     (  5, ( aSimpleName, name ) ),
