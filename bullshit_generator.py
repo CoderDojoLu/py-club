@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
 '''
-======================================================================
- Bullshit Generator 
-    by Pierre Denis, March 2009
-    source: https://mail.python.org/pipermail/python-list/2009-March/530858.html
-    adaptation: https://code.google.com/p/lea/wiki/Examples#bullshit_generator
-    Presentationized by @SteveClement, December 2014
-======================================================================
+=====================================================================
+Bullshit Generator by Pierre Denis, March 2009
+source: 
+ https://mail.python.org/pipermail/python-list/2009-March/530858.html
+adaptation: 
+ https://code.google.com/p/lea/wiki/Examples#bullshit_generator
+Presentationized by @SteveClement, January 2015
+=====================================================================
 '''
 
-# There are three kinds of sequences in Python: strings, lists and tuples. Dictionaries and sets are containers for sequential data.
+# There are three kinds of sequences in Python: strings, 
+# lists and tuples. Dictionaries and sets are containers
+# for sequential data.
 
 # --------------------------------------------------
 # grammar engine
@@ -69,8 +72,9 @@ class TerminalNode(object):
 # grammar
 # --------------------------------------------------
 
-""" verb == a word used to describe an action, state, or occurrence, and forming 
-the main part of the predicate of a sentence, such as hear, become, happen. """
+""" verb == a word used to describe an action, state, or occurrence,
+ and forming the main part of the predicate of a sentence, such as hear,
+ become, happen. """
 verb = TerminalNode(
     "accesses", "activates", "administrates", "aggregates", "builds",
     "calculates", "checks", "competes with", "completes", "complies with",
@@ -93,10 +97,11 @@ verb = TerminalNode(
     "streamlines", "subscribes to", "subscribes to", "supersedes", "takes",
     "targets", "triggers", "updates", "validates", "writes")
 
-""" passiveVerb == Passive voice is a grammatical voice common in many of the 
-world's languages. In a clause with passive voice, the grammatical subject 
-expresses the theme or patient of the main verb - that is, the person or thing 
-that undergoes the action or has its state changed."""
+""" passiveVerb == Passive voice is a grammatical voice common in
+ many of the world's languages. In a clause with passive voice, 
+ the grammatical subject expresses the theme or patient of the
+ main verb - that is, the person or thing that undergoes the action 
+ or has its state changed."""
 passiveVerb = TerminalNode(
     "accessed by", "achieved by", "aggregated by", "applicable for",
     "asserted by", "authorized by",
@@ -115,7 +120,8 @@ passiveVerb = TerminalNode(
     "serialized in", "started in", "stored by", "stored in", "stored on",
     "the interface of", "updated by", "validated by")
 
-# simpleName == Name is a word (or a set of words) given to things and people.
+""" simpleName == Name is a word (or a set of words) 
+       given to things and people. """
 aSimpleName = TerminalNode(
     "COTS", "GRID processing",
     "Java program", "LDAP registry", "Portal", "RSS feed", "SAML token",
@@ -166,7 +172,8 @@ anSimpleName = TerminalNode(
     "ontology", "operation", "operator", "operator", "opportunity",
     "orchestration", "owner")
 
-# adjective == a word naming an attribute of a noun, such as sweet, red, or technical.
+""" adjective == a word naming an attribute of a noun, such as sweet,
+       red, or technical. """
 aAdjective = TerminalNode(
     "BPEL",  "DOM", "DTD", "GRID", "HTML", "J2EE",
     "Java", "Java-based", "Java-based", "UML", "SAX", "WFS", "WSDL",
@@ -205,9 +212,10 @@ anAdjective = TerminalNode(
     "open", "operational",
     "other", "own", "unaffected", "up-to-date")
 
-""" adverb == a word or phrase that modifies the meaning of an adjective, verb, 
-or other adverb, expressing manner, place, time, or degree (e.g. gently, here, 
-ow, very ). Some adverbs, for example sentence adverbs, can also be used to 
+""" adverb == a word or phrase that modifies the meaning of 
+an adjective, verb, or other adverb, expressing manner, place, 
+time, or degree (e.g. gently, here, ow, very ). Some adverbs,
+for example sentence adverbs, can also be used to
 modify whole sentences. """
 adverb = TerminalNode(
     "basically", "comprehensively", "conceptually", "consistently",
@@ -232,7 +240,8 @@ sentenceHead = TerminalNode(
     "roughly speaking", "that being said", "then", "therefore",
     "to summarize", "up to here", "up to now", "when this happens")
 
-# creates 11 Node objects based on our grammar set which itself are TerminalNodes
+# creates 11 Node objects based on our grammar set which 
+# itself are TerminalNodes
 (name, aName, anName, nameTail, adjective, nameGroup,
  simpleNameGroup, verbalGroup, simpleVerbalGroup, sentence,
  sentenceTail) = [Node() for i in range(11)]
@@ -274,8 +283,8 @@ simpleNameGroup.setTermsChoices(
     ( 20, ( "the", adjective, name ) ),
     ( 10, ( "a", aName ) ),
     ( 10, ( "an", anName ) ),
-    (  5, ( "a", aAdjective, name ) ),                
-    (  5, ( "an", anAdjective, name ) ) )  
+    (  5, ( "a", aAdjective, name ) ),
+    (  5, ( "an", anAdjective, name ) ) )
 
 verbalGroup.setTermsChoices(
     ( 10, ( verb, nameGroup ) ),
@@ -315,7 +324,7 @@ print("press <enter> to resume, 'q'+<enter> to quit\n")
 
 while True:
     print()
-    for i in range(8):
+    for i in range(1):
         generatedSentence = sentence.getString()
         print(generatedSentence)
         if voice:
