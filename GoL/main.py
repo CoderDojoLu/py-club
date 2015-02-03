@@ -11,8 +11,10 @@ CELLWIDTH = WIDTH / CELLSIZE
 CELLHEIGHT = HEIGHT / CELLSIZE
 x = 100
 y = 0
-os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
+#os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 
+# env: SDL_WINDOW_FULLSCREEN - 
 
 BLACK = (0,0,0)
 WHITE = (255,255,255)
@@ -31,7 +33,7 @@ def blankGrid():
 	for y in range(int(CELLHEIGHT)):
 		for x in range(int(CELLWIDTH)):
 			gridDict[x,y] = 0
-		return gridDict
+	return gridDict
 
 def colourGrid(item, lifeDict):
 	x = item[0]
@@ -43,6 +45,30 @@ def colourGrid(item, lifeDict):
 	if lifeDict[item] == 1:
 		pygame.draw.rect(screen, GREEN, (x,y, CELLSIZE, CELLSIZE))
 	return None
+
+def getNeighbours(item,lifeDict):
+	neighbours = 0
+	for x in range(-1,2):
+		for y in range(-1,2):
+			checkCell = (item[0]+x, item[1]+y)
+			if checkCell[0] < CELLWIDTH and checkCell[0] >= 0:
+				if checkCell[1] < CELLHEIGHT and checkCell[1] >= 0:
+					if lifeDict[checkCell] == 1:
+						if x == 0 and y == 0:
+							neighbours += 0
+						else:
+							neighbours += 1
+	return neighbours
+
+def tick(lifeDict):
+	newTick = {}
+	for item in lifeDict:
+		numberNeighbours = getNeighbours(item, lifeDict)
+		if lifeDict[item] == 1:
+			if numberNeighbours < 2:
+				newTick[item] = 0
+			elif numberNeighbours > 3:
+				newTick[item] = 0
 
 def startingGridRandom(lifeDict):
 	for item in lifeDict:
