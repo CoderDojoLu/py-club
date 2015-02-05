@@ -2,9 +2,10 @@
 import sys, random, pygame, time, os
 from pygame.locals import *
 
+FPS = 10
 WIDTH=640
 HEIGHT=480
-CELLSIZE=10
+CELLSIZE=20
 assert WIDTH % CELLSIZE == 0, "WIDTH must be a multiple of CELLSIZE"
 assert HEIGHT % CELLSIZE == 0, "HEIGHT must be a multiple of CELLSIZE"
 CELLWIDTH = WIDTH / CELLSIZE
@@ -86,6 +87,7 @@ def startingGridRandom(lifeDict):
 def main():
     pygame.init()
     global screen
+    FPSCLOCK = pygame.time.Clock()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption('Game of Life')
     screen.fill(WHITE)
@@ -102,7 +104,15 @@ def main():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+
+        lifeDict = tick(lifeDict)
+        for item in lifeDict:
+            colourGrid(item, lifeDict)
+
+        drawGrid()
         pygame.display.update()
+        FPSCLOCK.tick(FPS)
+
 
 if __name__ == '__main__':
     main()
