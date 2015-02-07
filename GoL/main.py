@@ -3,13 +3,22 @@ import sys, random, pygame, time, os
 from pygame.locals import *
 
 FPS = 10
+CELLSIZE=10
 WIDTH=640
 HEIGHT=480
-CELLSIZE=20
-assert WIDTH % CELLSIZE == 0, "WIDTH must be a multiple of CELLSIZE"
-assert HEIGHT % CELLSIZE == 0, "HEIGHT must be a multiple of CELLSIZE"
-CELLWIDTH = WIDTH / CELLSIZE
-CELLHEIGHT = HEIGHT / CELLSIZE
+FULLSCREEN=True
+pygame.init()
+global screen
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+flags = screen.get_flags()
+bits = screen.get_bitsize()
+w,h = screen.get_width(),screen.get_height()
+screen = pygame.display.set_mode((w,h),flags^FULLSCREEN,bits)
+
+assert w % CELLSIZE == 0, "WIDTH must be a multiple of CELLSIZE"
+assert h % CELLSIZE == 0, "HEIGHT must be a multiple of CELLSIZE"
+CELLWIDTH = w / CELLSIZE
+CELLHEIGHT = h / CELLSIZE
 x = 100
 y = 0
 #os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
@@ -21,6 +30,27 @@ BLACK = (0,0,0)
 WHITE = (255,255,255)
 DARKGRAY = (40,40,40)
 GREEN = (0, 255, 0)
+
+def toggle_fullscreen():
+    screen = pygame.display.get_surface()
+    tmp = screen.convert()
+    caption = pygame.display.get_caption()
+    cursor = pygame.mouse.get_cursor()  # Duoas 16-04-2007
+
+    w,h = screen.get_width(),screen.get_height()
+
+    pygame.display.quit()
+    pygame.display.init()
+
+    screen = pygame.display.set_mode((w,h),flags^FULLSCREEN,bits)
+    screen.blit(tmp,(0,0))
+    pygame.display.set_caption(*caption)
+
+    pygame.key.set_mods(0) #HACK: work-a-round for a SDL bug??
+
+    pygame.mouse.set_cursor( *cursor )  # Duoas 16-04-2007
+
+    return screen
 
 def drawGrid():
     for x in range(0, WIDTH, CELLSIZE):
@@ -85,10 +115,7 @@ def startingGridRandom(lifeDict):
     return lifeDict
 
 def main():
-    pygame.init()
-    global screen
     FPSCLOCK = pygame.time.Clock()
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption('Game of Life')
     screen.fill(WHITE)
     lifeDict = blankGrid()
@@ -101,9 +128,13 @@ def main():
 
     while True:
         for event in pygame.event.get():
+            if event.type is KEYDOWN and event.key == K_ESCAPE: _quit = True
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+            if (event.type is KEYDOWN and event.key == K_RETURN
+                    and (event.mod&(KMOD_LALT|KMOD_RALT)) != 0):
+                toggle_fullscreen()
 
         lifeDict = tick(lifeDict)
         for item in lifeDict:
