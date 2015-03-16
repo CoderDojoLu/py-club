@@ -50,24 +50,26 @@ while True:
     DISPLAYSURF.fill(BGCOLOR)
 
     # draw center lines
-    pygame.draw.line(DISPLAYSURF, BLACK, (WIN_CENTERX, 0), (WIN_CENTERX, WINDOWHEIGHT))
-    pygame.draw.line(DISPLAYSURF, BLACK, (0, WIN_CENTERY), (WINDOWWIDTH, WIN_CENTERY))
+    #pygame.draw.line(DISPLAYSURF, BLACK, (WIN_CENTERX, 0), (WIN_CENTERX, WINDOWHEIGHT))
+    #pygame.draw.line(DISPLAYSURF, BLACK, (0, WIN_CENTERY), (WINDOWWIDTH, WIN_CENTERY))
 
     # draw blue ball
     xPos =      math.cos(step) * AMPLITUDE
-    yPos = -1 * math.sin(step) * AMPLITUDE
+    yPos =  math.sin(step) * AMPLITUDE
+    print(xPos)
+    print(yPos)
     #yPos = -1 * abs(math.sin(step) * AMPLITUDE) # uncomment this line to make the ball bounce
     pygame.draw.circle(DISPLAYSURF, BRIGHTBLUE, (int(xPos) + WIN_CENTERX, int(yPos) + WIN_CENTERY), 20)
 
     # draw vertically moving red ball
-    pygame.draw.circle(DISPLAYSURF, DARKRED, (WINDOWWIDTH - 30, int(yPos) + WIN_CENTERY), 20)
+    #pygame.draw.circle(DISPLAYSURF, DARKRED, (WINDOWWIDTH - 30, int(yPos) + WIN_CENTERY), 20)
 
     # draw horizontally moving red ball
-    pygame.draw.circle(DISPLAYSURF, DARKRED, (int(xPos) + WIN_CENTERX, WINDOWHEIGHT - 30), 20)
+    #pygame.draw.circle(DISPLAYSURF, DARKRED, (int(xPos) + WIN_CENTERX, WINDOWHEIGHT - 30), 20)
 
     # draw yellow connecting lines
-    pygame.draw.line(DISPLAYSURF, YELLOW, (WINDOWWIDTH, int(yPos) + WIN_CENTERY), (0, int(yPos) + WIN_CENTERY))
-    pygame.draw.line(DISPLAYSURF, YELLOW, (int(xPos) + WIN_CENTERX, WINDOWHEIGHT), (int(xPos) + WIN_CENTERX, 0))
+    #pygame.draw.line(DISPLAYSURF, YELLOW, (WINDOWWIDTH, int(yPos) + WIN_CENTERY), (0, int(yPos) + WIN_CENTERY))
+    #pygame.draw.line(DISPLAYSURF, YELLOW, (int(xPos) + WIN_CENTERX, WINDOWHEIGHT), (int(xPos) + WIN_CENTERX, 0))
 
     # draw border
     pygame.draw.rect(DISPLAYSURF, BLACK, (0, 0, WINDOWWIDTH, WINDOWHEIGHT), 1)
