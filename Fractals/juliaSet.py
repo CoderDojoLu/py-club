@@ -31,24 +31,9 @@ def iterate (px_i,py_i,iters):
 def pixel_color_set (iterx, itery, iterations):
     pixel_color = (0,0,0)
     if iterx >= lim or itery >= lim or iterx <= limn or itery <= limn:
-        if iterations < 2:
-                pixel_color = (204,0,102)
-        elif iterations == 2:
-                pixel_color = (204,0,204)
-        elif iterations == 3:
-                pixel_color = (102,0,204)
-        elif iterations ==4:
-                pixel_color = (0,0,204)
-        elif iterations ==5:
-                pixel_color = (0,102,204)
-        elif iterations ==6:
-                pixel_color = (0,204,204)
-        elif iterations ==7:
-                pixel_color = (0,204,102)
-        elif iterations ==8:
-                pixel_color = (0,204,0)
-        elif iterations ==9:
-                pixel_color = (102,204,0)
+        RGB =int(math.sqrt(iterations) * int(255.0 / math.sqrt(iteration_detail)))
+        # RGB = iterations * int(255.0/ iteration_detail)
+        pixel_color = (RGB, RGB, RGB)
     return(pixel_color)
 
 def draw_pixel (px, py, color):
