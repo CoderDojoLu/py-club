@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import pygame, sys
 from pygame.locals import *
 import time
@@ -27,8 +28,8 @@ def drawGrid():
 
 def blankGrid():
     gridDict = {}
-    for y in range (CELLHEIGHT):
-        for x in range (CELLWIDTH):
+    for y in range (int(CELLHEIGHT)):
+        for x in range (int(CELLWIDTH)):
             gridDict[x,y] = 0
     return gridDict
 
@@ -50,7 +51,7 @@ def startingGridRandom(lifeDict):
     for item in lifeDict:
         lifeDict[item] = random.randint(0,1)
     return lifeDict
-    
+
 
 def main():
     pygame.init()
@@ -68,7 +69,7 @@ def main():
         colourGrid(item, lifeDict)
     drawGrid()
     pygame.display.update()
-    
+
     while True: #main game loop
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -76,8 +77,8 @@ def main():
                 sys.exit()
 
         drawGrid()
-        pygame.display.update()    
-    
-        
+        pygame.display.update()
+
+
 if __name__=='__main__':
     main()

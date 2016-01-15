@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import pygame, sys
 from pygame.locals import *
 import random
@@ -48,8 +49,8 @@ def colourGrid(item, lifeDict):
 def blankGrid():
     gridDict = {}
     #creates dictionary for all cells
-    for y in range (CELLHEIGHT):
-        for x in range (CELLWIDTH):
+    for y in range (int(CELLHEIGHT)):
+        for x in range (int(CELLWIDTH)):
             gridDict[x,y] = 0 #Sets cells as dead
     return gridDict
 
@@ -107,14 +108,14 @@ def main():
 
     lifeDict = blankGrid() # creates library and Populates to match blank grid
     lifeDict = startingGridRandom(lifeDict) # Assign random life
-    
+
     #Colours the live cells, blanks the dead
     for item in lifeDict:
         colourGrid(item, lifeDict)
 
     drawGrid()
     pygame.display.update()
-    
+
     while True: #main game loop
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -129,8 +130,8 @@ def main():
             colourGrid(item, lifeDict)
 
         drawGrid()
-        pygame.display.update()    
+        pygame.display.update()
         FPSCLOCK.tick(FPS)
-        
+
 if __name__=='__main__':
     main()
