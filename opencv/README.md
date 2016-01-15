@@ -14,3 +14,8 @@ $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/maste
 
 $ brew update
 $ brew install python python3
+
+## pip install
+
+ pip install virtualenv virtualenvwrapper
+ pip3 install virtualenv virtualenvwrapper
