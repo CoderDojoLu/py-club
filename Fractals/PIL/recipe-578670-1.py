@@ -30,7 +30,7 @@ for q in range(4, qmax, 2):
                 poly = 2.0 * math.cos(sigma) - e
                 if polyold * poly < 0.0: n += 1
 
-                for m in range(2, q / 2):
+                for m in range(2, int(q / 2)):
                     polynew = (2.0 * math.cos(sigma * m) - e) * poly - polyold
                     if poly * polynew < 0.0: n += 1
                     polyold = poly
@@ -44,7 +44,7 @@ for q in range(4, qmax, 2):
                 polyold = poly
                 poly = polynew
 
-                for m in range(2, q / 2):
+                for m in range(2, int(q / 2)):
                     polynew = (2.0 * math.cos(sigma * m) - e) * poly - polyold
                     if poly * polynew < 0.0: n += 1
                     polyold = poly
@@ -61,7 +61,7 @@ for q in range(4, qmax, 2):
                 polyold = poly
                 poly = polynew
 
-                for m in range(2, q / 2):
+                for m in range(2, int(q / 2)):
                     polynew = (2.0 * math.cos(sigma * m) - e) * poly - polyold
                     if poly * polynew < 0.0: n += 1
                     polyold = poly

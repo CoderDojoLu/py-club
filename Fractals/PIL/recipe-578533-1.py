@@ -44,9 +44,9 @@ ct = [[[0.0 for x in range(mx)] for y in range(my)] for z in range(2)]
 dt = [[[p for x in range(mx)] for y in range(my)] for z in range(2)]
 # set ice seed
 ox = (mx - 1) / 2; oy = (my - 1) / 2
-at[0][oy][ox] = 1
-ct[0][oy][ox] = 1.0
-dt[0][oy][ox] = 0.0
+at[0][int(oy)][int(ox)] = 1
+ct[0][int(oy)][int(ox)] = 1.0
+dt[0][int(oy)][int(ox)] = 0.0
 
 def isBoundary(x, y):
     global dx, dy, at, za

@@ -26,7 +26,7 @@ while True:
     mb0 = 2 ** random.randint(3, 6); mb1 = 256 / mb0
     if mr0 != mg0 and mr0 != mb0 and mg0 != mb0: break
 
-ca[(my - 1) / 2][(mx - 1) / 2] = 1.0 # ice seed
+ca[int((my - 1) / 2)][int((mx - 1) / 2)] = 1.0 # ice seed
 for i in range(maxIt): # growth steps
     print("Growth Step: " + str(i + 1) + " of " + str(maxIt))
     # separate the array into receptive and non-receptive arrays
@@ -73,7 +73,7 @@ for ky in range(imgy):
             c = ca[int((my - 1) * ty / imgy1)][int((mx - 1) * tx / imgx1)]
             if c >= 1.0: # ice
                 c = int((c - 1.0) * 255)
-                pixels[kx, ky] = (c % mr0 * mr1, c % mg0 * mg1, c % mb0 * mb1)
+                pixels[kx, ky] = (c % mr0 * int(mr1), c % mg0 * int(mg1), c % mb0 * int(mb1))
 label = "alpha = " + str(alpha) + " beta = " + str(beta) + " gamma = " + str(gamma)
 draw.text((0, 0), label, (0, 255, 0)) # write to top-left using green color
 image.save("../output/Snowflake.png", "PNG")
