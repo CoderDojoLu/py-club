@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import pygame, sys
 from pygame.locals import *
 
@@ -13,7 +14,7 @@ CELLHEIGHT = WINDOWHEIGHT / CELLSIZE # Number of cells high
 BLACK =    (0,  0,  0)
 WHITE =    (255,255,255)
 DARKGRAY = (40, 40, 40)
-    
+
 #Draws the grid lines
 def drawGrid():
     for x in range(0, WINDOWWIDTH, CELLSIZE): # draw vertical lines
@@ -31,7 +32,7 @@ def main():
 
     drawGrid()
     pygame.display.update()
-    
+
     while True: #main game loop
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -39,6 +40,6 @@ def main():
                 sys.exit()
         drawGrid()
         pygame.display.update()
-        
+
 if __name__=='__main__':
     main()
