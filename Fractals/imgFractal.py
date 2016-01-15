@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+
+# Source: http://0pointer.net/blog/projects/mandelbrot.html
+
 from PIL import Image, ImageDraw
 import math, colorsys
 
