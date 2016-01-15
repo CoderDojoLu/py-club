@@ -10,7 +10,7 @@ imgx1 = imgx - 1; imgy1 = imgy - 1
 image = Image.new("RGB", (imgx, imgy))
 pixels = image.load()
 ver = "deterministic" # random.choice(["deterministic", "randomized"])
-print "Version: " + ver
+print("Version: " + ver)
 maxIt = 3000 # 10000 - 100000 # of growth steps
 p = 0.58 # random.random() * 0.6 + 0.3 # rho: homogeneous vapor density
 k = random.random() * 0.05 # kappa
@@ -20,16 +20,16 @@ t = random.random() * 0.5595 + 0.02 # theta
 m = random.random() * 0.01 # mu
 g = 0.0000515 # gamma
 s = random.random() * -0.5 # sigma
-print "Parameters:"
-print "rho = ", p
-print "kappa = ", k
-print "beta = ", b
-print "alpha = ", a
-print "theta = ", t
-print "mu = ", m
-print "gamma = ", g
-print "sigma = ", s
-print
+print("Parameters:")
+print("rho = ", p)
+print("kappa = ", k)
+print("beta = ", b)
+print("alpha = ", a)
+print("theta = ", t)
+print("mu = ", m)
+print("gamma = ", g)
+print("sigma = ", s)
+print()
 
 mx = imgx; my = imgy # width and height of 2DCA
 dx = [-1, 0, -1, 1, 0, 1]; dy = [-1, -1, 0, 0, 1, 1] # 6 directions to grow
@@ -84,7 +84,7 @@ zc = 0; wc = 1
 zd = 0; wd = 1
 
 for i in range(maxIt): # growth steps
-    print "Growth Step: " + str(i + 1) + " of " + str(maxIt)
+    print("Growth Step: " + str(i + 1) + " of " + str(maxIt))
 
     # step 1: diffusion
     for iy in range(my):
@@ -99,8 +99,8 @@ for i in range(maxIt): # growth steps
                         if at[za][jy][jx] == 1:
                             wsum += dt[zd][iy][ix]
                         else:
-                            wsum += dt[zd][jy][jx]                            
-                dt[wd][iy][ix] = wsum / 7.0                
+                            wsum += dt[zd][jy][jx]
+                dt[wd][iy][ix] = wsum / 7.0
     zd = 1 - zd; wd = 1 - wd # switch planes
 
     # step 2: freezing
@@ -109,7 +109,7 @@ for i in range(maxIt): # growth steps
             if isBoundary(ix, iy):
                 bt[wb][iy][ix] = bt[zb][iy][ix] + (1.0 - k) * dt[zd][iy][ix]
                 ct[wc][iy][ix] = ct[zc][iy][ix] + k * dt[zd][iy][ix]
-                dt[wd][iy][ix] = 0.0    
+                dt[wd][iy][ix] = 0.0
     zb = 1 - zb; wb = 1 - wb # switch planes
     zc = 1 - zc; wc = 1 - wc # switch planes
     zd = 1 - zd; wd = 1 - wd # switch planes
@@ -125,11 +125,11 @@ for i in range(maxIt): # growth steps
                     if bt[zb][iy][ix] >= 1.0:
                         at[wa][iy][ix] = 1
                     elif bt[zb][iy][ix] >= a:
-                        if difMass(ix, iy) < t: at[wa][iy][ix] = 1                        
+                        if difMass(ix, iy) < t: at[wa][iy][ix] = 1
                 if nIce >= 4: at[wa][iy][ix] = 1
                 if at[wa][iy][ix] == 1:
                     ct[wc][iy][ix] = bt[zb][iy][ix] + ct[zc][iy][ix];
-                    bt[zb][iy][ix] = 0.0    
+                    bt[zb][iy][ix] = 0.0
     za = 1 - za; wa = 1 - wa # switch planes
     zb = 1 - zb; wb = 1 - wb # switch planes
     zc = 1 - zc; wc = 1 - wc # switch planes
@@ -140,7 +140,7 @@ for i in range(maxIt): # growth steps
             if isBoundary(ix, iy):
                 bt[wb][iy][ix] = bt[zb][iy][ix] * (1.0 - m)
                 ct[wc][iy][ix] = ct[zc][iy][ix] * (1.0 - g)
-                dt[wd][iy][ix] = dt[zd][iy][ix] + bt[zb][iy][ix] * m + ct[zc][iy][ix] * g    
+                dt[wd][iy][ix] = dt[zd][iy][ix] + bt[zb][iy][ix] * m + ct[zc][iy][ix] * g
     zb = 1 - zb; wb = 1 - wb # switch planes
     zc = 1 - zc; wc = 1 - wc # switch planes
     zd = 1 - zd; wd = 1 - wd # switch planes
@@ -150,7 +150,7 @@ for i in range(maxIt): # growth steps
         for iy in range(my):
             for ix in range(mx):
                 if at[wa][iy][ix] == 0: # if not ice
-                    dt[wd][iy][ix] = dt[zd][iy][ix] * (1.0 + s * random.choice([1, -1]))    
+                    dt[wd][iy][ix] = dt[zd][iy][ix] * (1.0 + s * random.choice([1, -1]))
     zd = 1 - zd; wd = 1 - wd # switch planes
 
 # paint final state of the snowflake
@@ -167,4 +167,4 @@ for ky in range(imgy):
             c = at[wa][int((my - 1) * ty / imgy1)][int((mx - 1) * tx / imgx1)]
             pixels[kx, ky] = (c * 255, c * 255, c * 255)
 
-image.save("Gravner-Griffeath_Snowfake_Simulation.png", "PNG")
+image.save("../output/Gravner-Griffeath_Snowfake_Simulation.png", "PNG")

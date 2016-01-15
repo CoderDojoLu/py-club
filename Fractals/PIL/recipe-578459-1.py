@@ -29,8 +29,8 @@ for ky in range(imgy):
         dists = [math.hypot(seedsX[i] - kx, seedsY[i] - ky) for i in range(n)]
         dists.sort()
         c = int(round(255 * dists[m] / maxDist))
-        pixels[kx, ky] = (0, 0, c) 
+        pixels[kx, ky] = (0, 0, c)
 
 label = "N = " + str(n) + " M = " + str(m)
 draw.text((0, 0), label, (0, 255, 0)) # write to top-left using green color
-image.save("WorleyNoise.png", "PNG")
+image.save("../output/WorleyNoise.png", "PNG")

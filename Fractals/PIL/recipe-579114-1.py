@@ -25,7 +25,7 @@ arA = [[[random.random() for x in range(imgx)] for y in range(imgy)] for z in ra
 arB = [[[random.random() for x in range(imgx)] for y in range(imgy)] for z in range(2)]
 
 # simulation
-p = 0; print "%" + str(p).zfill(2)
+p = 0; print("%" + str(p).zfill(2))
 z = 1
 for i in range(steps):
     z = 1 - z
@@ -57,7 +57,7 @@ for i in range(steps):
     pn = 100 * (i + 1) / steps # percent completed
     if pn != p:
         p = pn
-        print "%" + str(p).zfill(2)
+        print("%" + str(p).zfill(2))
 
 # paint the final state
 z = 1 - z
@@ -90,4 +90,4 @@ if bMin != bMax:
             pixels[ix, iy] = (cB, cB, cB)
     # label = "f = " + str(f) + " k = " + str(k)
     # draw.text((0, 0), label, (0, 255, 0))
-    image.save("ReactionDiffusionSim_B.png", "PNG")
+    image.save("../output/ReactionDiffusionSim_B.png", "PNG")

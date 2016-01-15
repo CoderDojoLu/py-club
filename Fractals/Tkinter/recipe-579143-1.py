@@ -71,7 +71,7 @@ X_MIN = -2.125
 X_MAX = 0.875
 Y_MIN = -1.5
 Y_MAX = 1.5
-OUTPUT_DIR = "./"
+OUTPUT_DIR = "../output/"
 DISK_CACHING = True
 
 ########################################################################
@@ -210,7 +210,7 @@ def mb_to_tkinter(maxiters, xmin, xmax, ymin, ymax, imgwd, imght):
     try:
         import tkinter as tk
     except ImportError:
-        import Tkinter as tk
+        import tkinter as tk
 
     array_ = get_mandelbrot(maxiters, xmin, xmax, ymin, ymax, imgwd, imght)
     window = tk.Tk()

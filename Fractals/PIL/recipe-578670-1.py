@@ -6,7 +6,7 @@ import math
 from PIL import Image
 imgSize = 200
 image = Image.new("RGB", (imgSize, imgSize))
-pixels = image.load() 
+pixels = image.load()
 
 def gcd(a, b): # Greatest Common Divisor
     if b == 0: return a
@@ -17,7 +17,7 @@ MAXX = imgSize + 1
 MAXY = imgSize + 1
 qmax = imgSize
 for q in range(4, qmax, 2):
-    print str(100 * q / qmax).zfill(2) + "%"
+    print(str(100 * q / qmax).zfill(2) + "%")
     for p in range(1, q, 2):
         if gcd(p, q) <= 1:
             sigma = pi2 * p / q
@@ -74,4 +74,4 @@ for q in range(4, qmax, 2):
                     pixels[int(MAXX * p / q), int(MAXY - ie)] = (255, 255, 255)
                 nold = n
 
-image.save("HofstadterButterflyFractal.png", "PNG")
+image.save("../output/HofstadterButterflyFractal.png", "PNG")

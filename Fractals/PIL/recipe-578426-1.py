@@ -23,7 +23,7 @@ maxAbsX = 0.0; maxAbsY = 0.0; maxAbsZ = 0.0
 percent = 0
 for ky in range(imgy):
     pc = 100 * ky / (imgy - 1)
-    if pc > percent: percent = pc; print '%' + str(percent)
+    if pc > percent: percent = pc; print('%' + str(percent))
     y0 = ya + (yb - ya) * ky / (imgy - 1)
     for kx in range(imgx):
         x0 = xa + (xb - xa) * kx / (imgx - 1)
@@ -35,7 +35,7 @@ for ky in range(imgy):
 percent = 0
 for ky in range(imgy):
     pc = 100 * ky / (imgy - 1)
-    if pc > percent: percent = pc; print '%' + str(percent)
+    if pc > percent: percent = pc; print('%' + str(percent))
     y0 = ya + (yb - ya) * ky / (imgy - 1)
     for kx in range(imgx):
         x0 = xa + (xb - xa) * kx / (imgx - 1)
@@ -48,7 +48,7 @@ for ky in range(imgy):
         colorRGB = int(16777215 * v / 256 ** 4)
         red = int(colorRGB / 65536)
         grn = int(colorRGB / 256) % 256
-        blu = colorRGB % 256        
-        pixels[kx, ky] = (red, grn, blu)    
+        blu = colorRGB % 256
+        pixels[kx, ky] = (red, grn, blu)
 draw.text((0, 0), "r = " + str(r), (0, 255, 0))
-image.save("LogisticMapFractal.png", "PNG")
+image.save("../output/LogisticMapFractal.png", "PNG")

@@ -50,7 +50,7 @@ while 1:
                     elif event.key == K_DOWN:
                             mul = -0.1
                     if event.key == K_SPACE:
-                            pygame.image.save(screen, "fractal.jpg")
+                            pygame.image.save(screen, "../output/juliaSet_fractal.jpg")
             if event.type == KEYUP:
                      if event.key == K_UP:
                             mul = 0

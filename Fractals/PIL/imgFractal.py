@@ -46,4 +46,4 @@ for y in range(dimensions[1]):
         d.point((x, y), fill = palette[int(v * (colors_max-1))])
 
 del d
-img.save("result.png")
+img.save("../output/Mandel_result.png")

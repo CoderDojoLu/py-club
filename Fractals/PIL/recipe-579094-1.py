@@ -12,7 +12,7 @@ pixels = image.load()
 f = random.random() * 40 + 10 # frequency
 p = random.random() * math.pi # phase
 n = random.randint(10, 20) # of rotations
-print f, p, n
+print(f, p, n)
 
 for ky in range(imgy):
     y = float(ky) / (imgy - 1) * 4 * math.pi - 2 * math.pi
@@ -25,4 +25,4 @@ for ky in range(imgy):
             z += math.cos(r * math.sin(a) * f + p)
         c = int(round(255 * z / n))
         pixels[kx, ky] = (c, c, c) # grayscale
-image.save("quasicrystal.png", "PNG")
+image.save("../output/quasicrystal.png", "PNG")

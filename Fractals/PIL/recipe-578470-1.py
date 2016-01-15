@@ -42,4 +42,4 @@ for ky in range(imgy):
 
 label = "Persistence = " + str(persistence)
 draw.text((0, 0), label, (0, 255, 0)) # write to top-left using green color
-image.save("PerlinNoise.png", "PNG")
+image.save("../output/PerlinNoise.png", "PNG")

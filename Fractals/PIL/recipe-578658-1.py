@@ -16,7 +16,7 @@ r0 = 1.0 - r1 # scale factor of central copy
 ts = math.sin(t) * r0; tc = math.cos(t) * r0
 maxIt = 64 # max number of iterations allowed
 for ky in range(imgy):
-    print str(100 * ky / (imgy - 1)).zfill(3) + "%"
+    print(str(100 * ky / (imgy - 1)).zfill(3) + "%")
     for kx in range(imgx):
         x = float(kx) / (imgx - 1) * (xb - xa) + xa
         y = float(ky) / (imgy - 1) * (yb - ya) + ya
@@ -39,4 +39,4 @@ for ky in range(imgy):
                     if i + 1 == maxIt: break
                     queue.append((xnew, ynew, i + 1))
         pixels[kx, ky] = (i % 16 * 16 , i % 8 * 32, i % 4 * 64)
-image.save("RandomSpiralFractal_" + str(n) + ".png", "PNG")
+image.save("../output/RandomSpiralFractal_" + str(n) + ".png", "PNG")
