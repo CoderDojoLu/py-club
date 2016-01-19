@@ -1,13 +1,17 @@
+#!/usr/bin/env python3
 # Logistic Map Fractal
 # http://en.wikipedia.org/wiki/Logistic_map
 # FB - 20130118
 import random
 import math
+import sys, time
 from PIL import Image, ImageDraw
 imgx = 800; imgy = 800
 image = Image.new("RGB", (imgx, imgy))
 draw = ImageDraw.Draw(image)
 pixels = image.load()
+outFile = "../output/LogisticMapFractal.png"
+print("Writing a {}x{} picture: {}".format(imgx, imgy, outFile))
 maxIt = 256
 xa = -0.5; xb = 1.5
 ya = -1.0; yb = 1.0
@@ -51,4 +55,4 @@ for ky in range(imgy):
         blu = colorRGB % 256
         pixels[kx, ky] = (red, grn, blu)
 draw.text((0, 0), "r = " + str(r), (0, 255, 0))
-image.save("../output/LogisticMapFractal.png", "PNG")
+image.save(outFile, "PNG")

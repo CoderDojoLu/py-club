@@ -1,12 +1,18 @@
+#!/usr/bin/env python3
 # Hofstadter Butterfly Fractal
 # http://en.wikipedia.org/wiki/Hofstadter%27s_butterfly
 # Wolfgang Kinzel/Georg Reents,"Physics by Computer" Springer Press (1998)
 # FB36 - 20130922
 import math
+import sys, time
 from PIL import Image
-imgSize = 200
+imgSize = 800
 image = Image.new("RGB", (imgSize, imgSize))
 pixels = image.load()
+
+outFile = "../output/HofstadterButterflyFractal.png"
+
+print("Writing a {}x{} picture: {}".format(imgSize, imgSize, outFile))
 
 def gcd(a, b): # Greatest Common Divisor
     if b == 0: return a
@@ -17,7 +23,8 @@ MAXX = imgSize + 1
 MAXY = imgSize + 1
 qmax = imgSize
 for q in range(4, qmax, 2):
-    print(str(100 * q / qmax).zfill(2) + "%")
+    sys.stdout.write("\r%d%%" % int(100 * q / qmax))
+    sys.stdout.flush()
     for p in range(1, q, 2):
         if gcd(p, q) <= 1:
             sigma = pi2 * p / q
@@ -74,4 +81,4 @@ for q in range(4, qmax, 2):
                     pixels[int(MAXX * p / q), int(MAXY - ie)] = (255, 255, 255)
                 nold = n
 
-image.save("../output/HofstadterButterflyFractal.png", "PNG")
+image.save(outFile, "PNG")

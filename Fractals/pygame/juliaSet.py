@@ -2,8 +2,9 @@
 
 ## Source: https://stackoverflow.com/questions/21141065/julia-set-fractals
 
-import pygame, sys, math, cmath, random
+import pygame, sys, math, cmath, random, time
 from pygame.locals import *
+
 print("Julia set fractal generator")
 custom = int(input("Do you want a custom set? Yes(1); No(-1): "))
 if custom == -1:
@@ -16,7 +17,15 @@ lim = 4
 limn = -4
 mul = 0
 iteration_detail = 100
-screen = pygame.display.set_mode((512,512),0,32)
+
+dimension = (512,512)
+
+screen = pygame.display.set_mode(dimension,0,32)
+
+outFile = "../output/juliaSet_fractal.jpg"
+
+print("Writing a {}x{} picture: {}".format(dimension[0], dimension[1], outFile))
+
 pygame.display.set_caption("Julia set fractal generator")
 def iterate (px_i,py_i,iters):
     itnum = 1
@@ -50,7 +59,7 @@ while 1:
                     elif event.key == K_DOWN:
                             mul = -0.1
                     if event.key == K_SPACE:
-                            pygame.image.save(screen, "../output/juliaSet_fractal.jpg")
+                            pygame.image.save(screen, outFile)
             if event.type == KEYUP:
                      if event.key == K_UP:
                             mul = 0

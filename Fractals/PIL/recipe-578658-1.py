@@ -1,12 +1,19 @@
+#!/usr/bin/env python3
 # Random Spiral Fractals
 # FB36 - 20130929
 import math
 import random
+import sys, time
 from collections import deque
 from PIL import Image
 imgx = 512; imgy = 512
 image = Image.new("RGB", (imgx, imgy))
 pixels = image.load()
+
+outFile = "../output/RandomSpiralFractal_"
+
+print("Writing a {}x{} picture: {}.png".format(imgx, imgy, outFile))
+
 xa = -1.5; xb = 1.5; ya = -1.5; yb = 1.5 # view
 n = random.randint(2, 9) # of spiral arms
 a = 2.0 * math.pi / n # angle between arms
@@ -16,7 +23,8 @@ r0 = 1.0 - r1 # scale factor of central copy
 ts = math.sin(t) * r0; tc = math.cos(t) * r0
 maxIt = 64 # max number of iterations allowed
 for ky in range(imgy):
-    print(str(100 * ky / (imgy - 1)).zfill(3) + "%")
+    sys.stdout.write("\r%d%%" % int(100 * ky / (imgy - 1)))
+    sys.stdout.flush()
     for kx in range(imgx):
         x = float(kx) / (imgx - 1) * (xb - xa) + xa
         y = float(ky) / (imgy - 1) * (yb - ya) + ya
@@ -39,4 +47,4 @@ for ky in range(imgy):
                     if i + 1 == maxIt: break
                     queue.append((xnew, ynew, i + 1))
         pixels[kx, ky] = (i % 16 * 16 , i % 8 * 32, i % 4 * 64)
-image.save("../output/RandomSpiralFractal_" + str(n) + ".png", "PNG")
+image.save(outFile + str(n) + ".png", "PNG")

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-
 # Source: http://0pointer.net/blog/projects/mandelbrot.html
 
 from PIL import Image, ImageDraw
 import math, colorsys
+import time, sys
 
 dimensions = (800, 800)
 scale = 1.0/(dimensions[0]/3)
@@ -11,6 +11,10 @@ center = (2.2, 1.5)       # Use this for Mandelbrot set
 #center = (1.5, 1.5)       # Use this for Julia set
 iterate_max = 100
 colors_max = 50
+
+outFile = "../output/Mandel_result.png"
+
+print("Writing a {} picture: {}".format(dimensions, outFile))
 
 img = Image.new("RGB", dimensions)
 d = ImageDraw.Draw(img)
@@ -32,6 +36,8 @@ def iterate_mandelbrot(c, z = 0):
 
 # Draw our image
 for y in range(dimensions[1]):
+    sys.stdout.write("\r%d%%" % int(y/(dimensions[1]/100)+1))
+    sys.stdout.flush()
     for x in range(dimensions[0]):
         c = complex(x * scale - center[0], y * scale - center[1])
 
@@ -46,4 +52,4 @@ for y in range(dimensions[1]):
         d.point((x, y), fill = palette[int(v * (colors_max-1))])
 
 del d
-img.save("../output/Mandel_result.png")
+img.save(outFile)

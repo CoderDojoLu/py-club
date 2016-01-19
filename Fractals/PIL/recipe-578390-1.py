@@ -1,14 +1,20 @@
+#!/usr/bin/env python3
 # Snowflake Simulation Using Reiter Cellular Automata
 # Source: "A Local Cellular Model for Snow Crystal Growth" by Cliff Reiter
 # FB36 - 20130107
 import math
 import random
+import sys, time
 from PIL import Image, ImageDraw
 imgx = 500; imgy = 500 # image size
 imgx1 = imgx - 1; imgy1 = imgy - 1
 image = Image.new("RGB", (imgx, imgy))
 draw = ImageDraw.Draw(image)
 pixels = image.load()
+
+outFile = "../output/Snowflake.png"
+print("Writing a {}x{} picture: {}".format(imgx, imgy, outFile))
+
 maxIt = 1000 # of growth steps
 # snowflake will differ depending on values of these parameters:
 alpha = random.random() * 1.5 + 0.5
@@ -28,7 +34,10 @@ while True:
 
 ca[int((my - 1) / 2)][int((mx - 1) / 2)] = 1.0 # ice seed
 for i in range(maxIt): # growth steps
-    print("Growth Step: " + str(i + 1) + " of " + str(maxIt))
+    #print("Growth Step: " + str(i + 1) + " of " + str(maxIt))
+    sys.stdout.write("\r%d%%" % i)
+    sys.stdout.flush()
+
     # separate the array into receptive and non-receptive arrays
     for iy in range(my):
         for ix in range(mx):
@@ -76,4 +85,4 @@ for ky in range(imgy):
                 pixels[kx, ky] = (c % mr0 * int(mr1), c % mg0 * int(mg1), c % mb0 * int(mb1))
 label = "alpha = " + str(alpha) + " beta = " + str(beta) + " gamma = " + str(gamma)
 draw.text((0, 0), label, (0, 255, 0)) # write to top-left using green color
-image.save("../output/Snowflake.png", "PNG")
+image.save(outFile, "PNG")

@@ -1,14 +1,18 @@
+#!/usr/bin/env python3
 # Gravner-Griffeath Snowflake Simulation
 # http://psoup.math.wisc.edu/Snowfakes.htm
 # "A typical simulated crystal reaches a final diameter of 400-600 cells
 # over 10,000-100,000 updates (growth steps)..."
 # FB36 - 20130526
 import math; import random
+import sys, time
 from PIL import Image
 imgx = 300; imgy = 300 # image size
 imgx1 = imgx - 1; imgy1 = imgy - 1
 image = Image.new("RGB", (imgx, imgy))
 pixels = image.load()
+outFile = "../output/Gravner-Griffeath_Snowfake_Simulation.png"
+print("Writing a {}x{} picture: {}".format(imgx, imgy, outFile))
 ver = "deterministic" # random.choice(["deterministic", "randomized"])
 print("Version: " + ver)
 maxIt = 3000 # 10000 - 100000 # of growth steps
@@ -84,7 +88,9 @@ zc = 0; wc = 1
 zd = 0; wd = 1
 
 for i in range(maxIt): # growth steps
-    print("Growth Step: " + str(i + 1) + " of " + str(maxIt))
+    #print("Growth Step: " + str(i + 1) + " of " + str(maxIt))
+    sys.stdout.write("\r%d%%" % int(i))
+    sys.stdout.flush()
 
     # step 1: diffusion
     for iy in range(my):
@@ -167,4 +173,4 @@ for ky in range(imgy):
             c = at[wa][int((my - 1) * ty / imgy1)][int((mx - 1) * tx / imgx1)]
             pixels[kx, ky] = (c * 255, c * 255, c * 255)
 
-image.save("../output/Gravner-Griffeath_Snowfake_Simulation.png", "PNG")
+image.save(outFile, "PNG")

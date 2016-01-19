@@ -1,7 +1,9 @@
+#!/usr/bin/env python3
 # Riemann Zeta Function Graph
 # http://en.wikipedia.org/wiki/Riemann_zeta_function
 # FB - 20130721
 import math
+import sys, time
 from PIL import Image, ImageDraw
 imgx = 512; imgy = 512
 image = Image.new("RGB", (imgx, imgy))
@@ -10,6 +12,10 @@ pixels = image.load()
 maxIt = 256
 xa = -40.0; xb = 40.0
 ya = -40.0; yb = 40.0
+
+outFile = "../output/RiemannZetaFunctionGraph.png"
+
+print("Writing a {}x{} picture: {}".format(imgx, imgy, outFile))
 
 def f(z):
     t = 0.0
@@ -22,7 +28,7 @@ maxAbsX = 0.0; maxAbsY = 0.0; maxAbsZ = 0.0
 percent = 0
 for ky in range(imgy):
     pc = 100 * ky / (imgy - 1)
-    if pc > percent: percent = pc; print('%' + str(percent))
+    if pc > percent: percent = pc; sys.stdout.write("\r%d%%" % int(percent)); sys.stdout.flush()
     y0 = ya + (yb - ya) * ky / (imgy - 1)
     for kx in range(imgx):
         x0 = xa + (xb - xa) * kx / (imgx - 1)
@@ -53,4 +59,4 @@ for ky in range(imgy):
 
 st = str(xa) + " <= x <= " + str(xb) + " and " + str(ya) + " <= y <= " + str(yb)
 draw.text((0, 0), st, (255, 0, 0))
-image.save("../output/RiemannZetaFunctionGraph.png", "PNG")
+image.save(outFile, "PNG")

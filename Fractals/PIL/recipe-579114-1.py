@@ -1,8 +1,10 @@
+#!/usr/bin/env python3
 # Reaction-Diffusion Simulation Using Gray-Scott Model
 # https://en.wikipedia.org/wiki/Reaction-diffusion_system
 # FB - 20151016
 import math
 import random
+import time, sys
 from PIL import Image, ImageDraw
 imgx = 256; imgy = 256 # image size
 image = Image.new("RGB", (imgx, imgy))
@@ -15,6 +17,11 @@ f = 0.0545
 k = 0.062
 h = 0.01 # time step size
 
+outFileA = "../output/ReactionDiffusionSim_A.png"
+outFileB = "../output/ReactionDiffusionSim_B.png"
+
+print("Writing a {}x{} picture: {} & {}".format(imgx, imgy, outFileA, outFileB))
+
 # 3x3 Convolution Matrix
 weights = [[0.05, 0.2, 0.05], [0.2, -1.0, 0.2], [0.05, 0.2, 0.05]]
 
@@ -25,7 +32,7 @@ arA = [[[random.random() for x in range(imgx)] for y in range(imgy)] for z in ra
 arB = [[[random.random() for x in range(imgx)] for y in range(imgy)] for z in range(2)]
 
 # simulation
-p = 0; print("%" + str(p).zfill(2))
+p = 0; sys.stdout.write("\r%d%%" % p)
 z = 1
 for i in range(steps):
     z = 1 - z
@@ -57,7 +64,8 @@ for i in range(steps):
     pn = 100 * (i + 1) / steps # percent completed
     if pn != p:
         p = pn
-        print("%" + str(p).zfill(2))
+        sys.stdout.write("\r%d%%" % p)
+        sys.stdout.flush()
 
 # paint the final state
 z = 1 - z
@@ -80,7 +88,7 @@ if aMin != aMax:
             pixels[ix, iy] = (cA, cA, cA)
     # label = "f = " + str(f) + " k = " + str(k)
     # draw.text((0, 0), label, (0, 255, 0))
-    image.save("ReactionDiffusionSim_A.png", "PNG")
+    image.save(outFileA, "PNG")
 
 if bMin != bMax:
     for iy in range(imgy):
@@ -90,4 +98,4 @@ if bMin != bMax:
             pixels[ix, iy] = (cB, cB, cB)
     # label = "f = " + str(f) + " k = " + str(k)
     # draw.text((0, 0), label, (0, 255, 0))
-    image.save("../output/ReactionDiffusionSim_B.png", "PNG")
+    image.save(outFileB, "PNG")

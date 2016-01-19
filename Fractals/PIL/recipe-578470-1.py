@@ -1,9 +1,11 @@
+#!/usr/bin/env python3
 # Perlin Noise Generator
 # http://en.wikipedia.org/wiki/Perlin_noise
 # http://en.wikipedia.org/wiki/Bilinear_interpolation
 # FB36 - 20130222
 import random
 import math
+import sys, time
 from PIL import Image, ImageDraw
 imgx = 800; imgy = 600 # image size
 image = Image.new("RGB", (imgx, imgy))
@@ -11,6 +13,8 @@ draw = ImageDraw.Draw(image)
 pixels = image.load()
 octaves = int(math.log(max(imgx, imgy), 2.0))
 persistence = random.random()
+outFile = "../output/PerlinNoise.png"
+print("Writing a {}x{} picture: {}".format(imgx, imgy, outFile))
 imgAr = [[0.0 for i in range(imgx)] for j in range(imgy)] # image array
 totAmp = 0.0
 for k in range(octaves):
@@ -42,4 +46,4 @@ for ky in range(imgy):
 
 label = "Persistence = " + str(persistence)
 draw.text((0, 0), label, (0, 255, 0)) # write to top-left using green color
-image.save("../output/PerlinNoise.png", "PNG")
+image.save(outFile, "PNG")
