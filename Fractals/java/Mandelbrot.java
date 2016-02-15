@@ -1,14 +1,15 @@
+// Imports to expose Graphics engine
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
- 
+
 public class Mandelbrot extends JFrame {
- 
+
     private final int MAX_ITER = 570;
     private final double ZOOM = 150;
     private BufferedImage I;
     private double zx, zy, cX, cY, tmp;
- 
+
     public Mandelbrot() {
         super("Mandelbrot Set");
         setBounds(100, 100, 800, 600);
@@ -31,12 +32,12 @@ public class Mandelbrot extends JFrame {
             }
         }
     }
- 
+
     @Override
     public void paint(Graphics g) {
         g.drawImage(I, 0, 0, this);
     }
- 
+
     public static void main(String[] args) {
         new Mandelbrot().setVisible(true);
     }
