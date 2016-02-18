@@ -43,6 +43,7 @@ public class BrownianTree extends JFrame implements Runnable {
 
     // override run
     public void run() {
+        // For 20k iterations add a new Particle object to the particles variable.
         for (int i = 0; i < 20000; i++) {
             particles.add(new Particle());
         }

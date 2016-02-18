@@ -21,6 +21,14 @@ public class KochSnowflake extends JFrame implements Runnable {
         // populate the particles variable with a LinkedList of type Particle
     }
 
+
+    // Override function paint
+    @Override
+    // paint returns void (nothing) and has a parameter g of type Graphics
+    public void paint(Graphics g) {
+        // draw Image I
+        g.drawImage(I, 0, 0, this);
+    }
         // override run
     public void run() {
         repaint();
