@@ -6,7 +6,8 @@ import pygame, sys, math, cmath, random, time
 from pygame.locals import *
 
 print("Julia set fractal generator")
-custom = int(input("Do you want a custom set? Yes(1); No(-1): "))
+#custom = int(input("Do you want a custom set? Yes(1); No(-1): "))
+custom = -1
 if custom == -1:
     c = complex((random.randint(-999,1000))/1000.0,(random.randint(-999,1000))/1000.0)
 else:
@@ -46,9 +47,10 @@ def pixel_color_set (iterx, itery, iterations):
     return(pixel_color)
 
 def draw_pixel (px, py, color):
+    print(color)
     return(screen.fill(color, ((px, py),(1, 1))))
 
-while 1:
+while True:
     for event in pygame.event.get():
             if event.type == QUIT:
                     pygame.quit()

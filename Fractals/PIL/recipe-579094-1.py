@@ -15,6 +15,9 @@ pixels = image.load()
 
 outFile = "../output/quasicrystal.png"
 
+# Set mode to normal or animate
+mode = "normal"
+
 print("Writing a {}x{} picture: {}".format(imgx, imgy, outFile))
 
 f = random.random() * 40 + 10 # frequency
@@ -35,4 +38,7 @@ for ky in range(imgy):
             z += math.cos(r * math.sin(a) * f + p)
         c = int(round(255 * z / n))
         pixels[kx, ky] = (c, c, c) # grayscale
+    if mode == "animate":
+        outFile = "../output/quasicrystal_" + "{0:03d}.png".format(ky)
+        image.save(outFile, "PNG")
 image.save(outFile, "PNG")
